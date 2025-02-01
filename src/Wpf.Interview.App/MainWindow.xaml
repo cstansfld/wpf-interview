@@ -1,0 +1,61 @@
+﻿<Window x:Class="Wpf.Interview.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf.Interview.App" 
+		xmlns:userToDos="clr-namespace:Wpf.Interview.Models;assembly=Wpf.Interview.Models" 
+			d:DataContext="{d:DesignInstance Type=userToDos:UserToDoViewModel}"
+		mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+	<Window.Resources>
+	</Window.Resources>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height ="Auto"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Left">
+			<TabControl x:Name="tc" Margin="5" SelectedIndex="{Binding Path=TabIndex}">
+				<TabItem Header="Users">
+					<DataGrid ItemsSource="{Binding Path=UserViewModel.ReadOnlyUsers, Mode=OneWay}"
+                          SelectedItem="{Binding Path=UserViewModel.SelectedUser, Mode=TwoWay}"
+                          Width="800" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="false"
+						VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" RowHeight="20">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Username" Binding="{Binding Username}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Phone" Binding="{Binding Phone}" IsReadOnly="True"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</TabItem>
+
+				<TabItem Header="ToDos">
+					<DataGrid ItemsSource="{Binding Path=ToDoViewModel.ToDos, Mode=TwoWay}"
+                          SelectedItem="{Binding Path=ToDoViewModel.SelectedToDo, Mode=TwoWay}" 
+						  Width="800" Height="Auto" AutoGenerateColumns="False" CanUserAddRows="False"
+                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" RowHeight="20">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="UserId" Binding="{Binding UserId}" IsReadOnly="True"/>
+							<DataGridTextColumn Header="Title" Binding="{Binding Title}" IsReadOnly="True"/>
+							<DataGridCheckBoxColumn Header="Completed" Binding="{Binding Completed}" IsReadOnly="True"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</TabItem>
+			</TabControl>
+		</StackPanel>
+		<StackPanel Margin="5" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left">
+			<Button Content="Load Users" Width="100" Command="{Binding Path=UserViewModel.GetAllUsers}" />
+			<!--<Button Content="Load User" Width="100" Command="{Binding Path=UserViewModel.GetUserById}" />-->
+		</StackPanel>
+		<StackPanel Margin="5" Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Left">
+			<Button Content="Nav Forward" Width="100" Command="{Binding Path=GoForwardCommand}" />
+			<Button Content="Nav Back" Width="100" Command="{Binding Path=GoBackCommand}" />
+		</StackPanel>
+
+	</Grid>
+</Window>
