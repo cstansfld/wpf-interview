@@ -9,44 +9,20 @@ namespace Wpf.Interview.Models.Users;
 /// <param name="toDo"></param>
 public partial class User(XUser user) : ObservableObject, IUser
 {
-    public int Id
-    {
-        get => user.Id;
-    }
+    public int Id => user.Id;
 
-    public string Name
-    {
-        get => user.Name;
-    }
+    public string Name => user.Name;
 
-    public string Username
-    {
-        get => user.Username;
-    }
+    public string Username => user.Username;
 
-    public string Email
-    {
-        get => user.Email;
-    }
+    public string Email => user.Email;
 
-    public Address Address
-    {
-        get => user.Address;
-    }
+    public Address Address => user.Address;
 
-    public string Phone
-    {
-        get => user.Phone;
-    }
+    public string Phone => user.Phone;
 
-    public string Website
-    {
-        get => user.Website;
-    }
+    public string Website => user.Website;
 
-    public Company Company
-    {
-        get => user.Company;
-    }
+    public Company Company => user.Company;
 }
 

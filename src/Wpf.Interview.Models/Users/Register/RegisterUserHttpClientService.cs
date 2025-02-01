@@ -11,12 +11,9 @@ public static class RegisterUserHttpClientService
         services.AddTransient<LoggingDelegatingHandler>();
         services.AddTransient<RetryDelegatingHandler>();
 
-        services.AddHttpClient<IUserService, UserService>(client =>
-        {
-            client.BaseAddress = new Uri(IUserService.UserBaseUri);
-        })
-        .AddHttpMessageHandler<LoggingDelegatingHandler>()
-        .AddHttpMessageHandler<RetryDelegatingHandler>();
+        services.AddHttpClient<IUserService, UserService>(client => client.BaseAddress = new Uri(IUserService.UserBaseUri))
+            .AddHttpMessageHandler<LoggingDelegatingHandler>()
+            .AddHttpMessageHandler<RetryDelegatingHandler>();
 
 
         return services;

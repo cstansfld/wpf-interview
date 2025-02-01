@@ -7,7 +7,7 @@ namespace Wpf.Interview.Tests;
 
 public class ToDoClientTests
 {
-    readonly ServiceProvider _serviceProvider;
+    private readonly ServiceProvider _serviceProvider;
     public ToDoClientTests()
     {
         var services = new ServiceCollection();
@@ -21,7 +21,7 @@ public class ToDoClientTests
     {
         const int MaxCount = 20;
         // default startIndex = 0, limit is 20
-        var results = await _serviceProvider.GetRequiredService<IToDoService>().GetAllToDosAsync();
+        IList<Common.ToDos.Http.XToDo>? results = await _serviceProvider.GetRequiredService<IToDoService>().GetAllToDosAsync();
         Assert.NotNull(results);
         Assert.Equal(MaxCount, results.Count);
     }
@@ -32,7 +32,7 @@ public class ToDoClientTests
         const int MaxCount = 10;
         const int StartIndex = 0;
         // default startIndex = 0, limit is 10
-        var results = await _serviceProvider.GetRequiredService<IToDoService>().GetAllToDosAsync(StartIndex, MaxCount);
+        IList<Common.ToDos.Http.XToDo>? results = await _serviceProvider.GetRequiredService<IToDoService>().GetAllToDosAsync(StartIndex, MaxCount);
         Assert.NotNull(results);
         Assert.Equal(MaxCount, results.Count);
     }
@@ -40,7 +40,7 @@ public class ToDoClientTests
     [Fact]
     public async Task GetToDosByUserIdOne()
     {
-        var results = await _serviceProvider.GetRequiredService<IToDoService>().GetToDosByUserIdAsync(1);
+        IList<Common.ToDos.Http.XToDo>? results = await _serviceProvider.GetRequiredService<IToDoService>().GetToDosByUserIdAsync(1);
         Assert.NotNull(results);
         Assert.NotEmpty(results);
     }
@@ -48,7 +48,7 @@ public class ToDoClientTests
     [Fact]
     public async Task GetToDoByIdOne()
     {
-        var result = await _serviceProvider.GetRequiredService<IToDoService>().GetToDoByIdAsync(1);
+        Common.ToDos.Http.XToDo? result = await _serviceProvider.GetRequiredService<IToDoService>().GetToDoByIdAsync(1);
         Assert.NotNull(result);
         Assert.Equal(1, result.UserId);
     }

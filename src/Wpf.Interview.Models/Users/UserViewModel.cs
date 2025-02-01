@@ -7,7 +7,7 @@ namespace Wpf.Interview.Models.Users;
 
 public partial class UserViewModel : ObservableObject, IUserViewModel
 {
-    readonly IUserService _userService;
+    private readonly IUserService _userService;
     public UserViewModel(IUserService userService)
     {
         _userService = userService;
@@ -33,17 +33,19 @@ public partial class UserViewModel : ObservableObject, IUserViewModel
     [NotifyCanExecuteChangedFor(nameof(GetAllUsers))]
     private int userCount;
 
-    public IReadOnlyCollection<IUser> ReadOnlyUsers { get => Users; }
+    public IReadOnlyCollection<IUser> ReadOnlyUsers => Users;
 
     private bool CanLoadUsers() { return UserCount == 0; }
 
     private async Task GetAllUsersAsync()
     {
-        var results = await _userService.GetAllUsersAsync();
+        IList<XUser>? results = await _userService.GetAllUsersAsync();
         if (results != null)
         {
-            foreach (var item in results)
+            foreach (XUser item in results)
+            {
                 Users.Add(new User(item));
+            }
 
             UserCount = Users.Count;
 
@@ -57,7 +59,7 @@ public partial class UserViewModel : ObservableObject, IUserViewModel
     {
         if (SelectedUser != default)
         {
-            var result = await _userService.GetUserByIdAsync(SelectedUser.Id);
+            XUser? result = await _userService.GetUserByIdAsync(SelectedUser.Id);
             if (result != null)
             {
                 SelectedUser = new User(result);

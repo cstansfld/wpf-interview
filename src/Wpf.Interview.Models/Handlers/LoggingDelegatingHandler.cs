@@ -9,13 +9,14 @@ public class LoggingDelegatingHandler(ILogger<LoggingDelegatingHandler> _logger)
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
+#pragma warning disable S2139 // Exceptions should be either logged or rethrown but not both
         try
         {
             _logger.LogInformation("Outgoing HTTP request: {Version} {Method} {Scheme}://{Host}{PathAndQuery} - {Length} - {StatusCode}",
                 request.Version, request.Method, request.RequestUri?.Scheme, request.RequestUri?.Host,
                 request.RequestUri?.PathAndQuery, request.Headers.ToString().Length + (request.Content?.Headers.ContentLength ?? 0), 0);
 
-            var response = await base.SendAsync(request, cancellationToken);
+            HttpResponseMessage response = await base.SendAsync(request, cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
@@ -41,5 +42,6 @@ public class LoggingDelegatingHandler(ILogger<LoggingDelegatingHandler> _logger)
 
             throw;
         }
+#pragma warning restore S2139 // Exceptions should be either logged or rethrown but not both
     }
 }

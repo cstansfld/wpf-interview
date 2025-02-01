@@ -4,7 +4,7 @@ using Wpf.Interview.Common.ToDos.Http;
 
 namespace Wpf.Interview.Models.ToDos;
 
-internal class ToDoService(HttpClient _httpClient) : IToDoService
+internal sealed class ToDoService(HttpClient _httpClient) : IToDoService
 {
     public async ValueTask<IList<XToDo>?> GetAllToDosAsync(int startIndex = 0, int limit = 20, CancellationToken cancellationToken = default)
     {

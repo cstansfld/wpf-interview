@@ -40,7 +40,7 @@ public class NavigationService(IUserToDoViewModel _userToDoViewModel) : INavigat
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="args"></param>
-    public void Navigate<T>(object? args)
+    public void Navigate<T>(object? args = default)
     {
         //this.frame.Navigate(this.viewMapping[typeof(T)], args);
     }

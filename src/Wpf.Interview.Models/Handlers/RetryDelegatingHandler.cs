@@ -5,7 +5,7 @@ namespace Wpf.Interview.Models.Handlers;
 
 public class RetryDelegatingHandler : DelegatingHandler
 {
-    const int MaxRetries = 2;
+    private const int MaxRetries = 2;
 
     private readonly AsyncRetryPolicy<HttpResponseMessage> _retryPolicy =
         Policy<HttpResponseMessage>
@@ -16,7 +16,7 @@ public class RetryDelegatingHandler : DelegatingHandler
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
-        var policyResult = await _retryPolicy.ExecuteAndCaptureAsync(
+        PolicyResult<HttpResponseMessage> policyResult = await _retryPolicy.ExecuteAndCaptureAsync(
             () => base.SendAsync(request, cancellationToken));
 
         if (policyResult.Outcome == OutcomeType.Failure)

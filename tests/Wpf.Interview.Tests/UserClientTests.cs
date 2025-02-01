@@ -7,7 +7,7 @@ namespace Wpf.Interview.Tests;
 
 public class UserClientTests
 {
-    readonly ServiceProvider _serviceProvider;
+    private readonly ServiceProvider _serviceProvider;
     public UserClientTests()
     {
         var services = new ServiceCollection();
@@ -21,7 +21,7 @@ public class UserClientTests
     {
         const int MaxCount = 10;
         // default startIndex = 0, limit is 10
-        var results = await _serviceProvider.GetRequiredService<IUserService>().GetAllUsersAsync();
+        IList<XUser>? results = await _serviceProvider.GetRequiredService<IUserService>().GetAllUsersAsync();
         Assert.NotNull(results);
         Assert.Equal(MaxCount, results.Count);
     }
@@ -29,7 +29,7 @@ public class UserClientTests
     [Fact]
     public async Task GetUserByIdOne()
     {
-        var result = await _serviceProvider.GetRequiredService<IUserService>().GetUserByIdAsync(1);
+        XUser? result = await _serviceProvider.GetRequiredService<IUserService>().GetUserByIdAsync(1);
         Assert.NotNull(result);
         Assert.Equal(1, result.Id);
     }

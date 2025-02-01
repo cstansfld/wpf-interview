@@ -12,10 +12,7 @@ public static class RegisterToDoHttpClientService
         services.AddTransient<LoggingDelegatingHandler>();
         services.AddTransient<RetryDelegatingHandler>();
 
-        services.AddHttpClient<IToDoService, ToDoService>(client =>
-        {
-            client.BaseAddress = new Uri(IToDoService.ToDoBaseUri);
-        })
+        services.AddHttpClient<IToDoService, ToDoService>(client => client.BaseAddress = new Uri(IToDoService.ToDoBaseUri))
         .AddHttpMessageHandler<LoggingDelegatingHandler>()
         .AddHttpMessageHandler<RetryDelegatingHandler>();
 

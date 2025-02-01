@@ -10,25 +10,23 @@ namespace Wpf.Interview.Models.ToDos;
 /// <param name="toDo"></param>
 public partial class ToDo(XToDo toDo) : ObservableObject, IToDo
 {
-    public int UserId
-    {
-        get => toDo.UserId;
-    }
+    public int UserId => toDo.UserId;
 
-    public int Id
-    {
-        get => toDo.Id;
-    }
+    public int Id => toDo.Id;
 
     public string Title
     {
         get => toDo.Title;
+#pragma warning disable S1854 // Unused assignments should be removed
         set => SetProperty(toDo.Title, value, toDo, (t, n) => t = t with { Title = n });
+#pragma warning restore S1854 // Unused assignments should be removed
     }
 
     public bool Completed
     {
         get => toDo.Completed;
+#pragma warning disable S1854 // Unused assignments should be removed
         set => SetProperty(toDo.Completed, value, toDo, (t, n) => t = t with { Completed = n });
+#pragma warning restore S1854 // Unused assignments should be removed
     }
 }

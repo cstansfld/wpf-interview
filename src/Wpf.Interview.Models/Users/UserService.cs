@@ -3,7 +3,7 @@ using Wpf.Interview.Common.Users;
 
 namespace Wpf.Interview.Models.Users;
 
-internal class UserService(HttpClient _httpClient) : IUserService
+internal sealed class UserService(HttpClient _httpClient) : IUserService
 {
     public async ValueTask<IList<XUser>?> GetAllUsersAsync(int startIndex = 0, int limit = 10, CancellationToken cancellationToken = default)
     {

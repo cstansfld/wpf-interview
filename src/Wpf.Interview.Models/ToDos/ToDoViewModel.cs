@@ -8,7 +8,7 @@ namespace Wpf.Interview.Models.ToDos;
 
 public partial class ToDoViewModel : ObservableObject, IToDoViewModel
 {
-    readonly IToDoService _toDoService;
+    private readonly IToDoService _toDoService;
     public ToDoViewModel(IToDoService toDoService)
     {
         _toDoService = toDoService;
@@ -42,18 +42,20 @@ public partial class ToDoViewModel : ObservableObject, IToDoViewModel
 
     partial void OnToDosChanged(ObservableCollection<IToDo> value)
     {
-
+        // fixed notify by adding NotifyCanExecuteChangedFor
     }
 
-    public IReadOnlyCollection<IToDo> ReadOnlyToDos { get => ToDos; }
+    public IReadOnlyCollection<IToDo> ReadOnlyToDos => ToDos;
 
     private async Task GetAllToDosAsync()
     {
-        var results = await _toDoService.GetAllToDosAsync();
+        IList<Common.ToDos.Http.XToDo>? results = await _toDoService.GetAllToDosAsync();
         if (results != null)
         {
-            foreach (var item in results)
+            foreach (Common.ToDos.Http.XToDo item in results)
+            {
                 ToDos.Add(new ToDo(item));
+            }
         }
 
         Notify?.Invoke(ReadOnlyToDos.GetType());
@@ -63,12 +65,14 @@ public partial class ToDoViewModel : ObservableObject, IToDoViewModel
     {
         if (SelectedUser != default)
         {
-            var results = await _toDoService.GetToDosByUserIdAsync(SelectedUser.Id);
+            IList<Common.ToDos.Http.XToDo>? results = await _toDoService.GetToDosByUserIdAsync(SelectedUser.Id);
             if (results != null)
             {
                 ToDos.Clear();
-                foreach (var item in results)
+                foreach (Common.ToDos.Http.XToDo item in results)
+                {
                     ToDos.Add(new ToDo(item));
+                }
             }
             Notify?.Invoke(ReadOnlyToDos.GetType());
         }
@@ -78,7 +82,7 @@ public partial class ToDoViewModel : ObservableObject, IToDoViewModel
     {
         if (SelectedToDo != default)
         {
-            var result = await _toDoService.GetToDoByIdAsync(SelectedToDo.Id);
+            Common.ToDos.Http.XToDo? result = await _toDoService.GetToDoByIdAsync(SelectedToDo.Id);
             if (result != null)
             {
                 SelectedToDo = new ToDo(result);
