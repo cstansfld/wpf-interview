@@ -10,7 +10,7 @@ public static class LogInjection
         services.AddLogging(builder =>
             builder
             .ClearProviders()
-            .AddConsole()
+            .AddDebug()
             .SetMinimumLevel(LogLevel.Information));
         return services;
 
